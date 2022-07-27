@@ -1,7 +1,13 @@
+using SpaceFlight.API.Contracts;
+using SpaceFlight.API.Service;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<ISpaceFlightService, SpaceFlightService>();
+
 
 var app = builder.Build();
 
@@ -13,6 +19,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/", () => "Back-end Challenge 2021 - Space Flight News");
+app.MapGet("/", () => Results.Ok("Back-end Challenge 2021 - Space Flight News"));
+
+app.MapGet("/articles/api", (ISpaceFlightService service, CancellationToken token) =>
+{
+    var articles = service.GetArticlesAsync(token);
+
+    return articles;
+});
 
 app.Run();

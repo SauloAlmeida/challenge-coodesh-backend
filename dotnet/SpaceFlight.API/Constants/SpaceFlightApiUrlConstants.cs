@@ -1,7 +1,7 @@
 ﻿namespace SpaceFlight.API.Constants
 {
-    public class SpaceFlightApiUrlConstants
+    public static class SpaceFlightApiUrlConstants
     {
-        public string GetArticles => "/articles";
+        public static string GetArticles => "https://api.spaceflightnewsapi.net/v3/articles";
     }
 }
