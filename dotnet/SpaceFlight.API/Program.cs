@@ -13,6 +13,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/", () => "Hello Challenge!");
+app.MapGet("/", () => "Back-end Challenge 2021 - Space Flight News");
 
 app.Run();
