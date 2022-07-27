@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "nJ/zc/CkprgSeHgczIaaGPSoUVaW0rNxcNbzUfeuE4U=",
+  "Source": "SpaceFlight.API",
+  "BasePath": "_content/SpaceFlight.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
