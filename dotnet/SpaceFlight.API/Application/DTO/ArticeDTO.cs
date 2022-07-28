@@ -1,6 +1,6 @@
-﻿namespace SpaceFlight.API.Application.Model.ViewModel
+﻿namespace SpaceFlight.API.Application.DTO.ViewModel
 {
-    public class ArticeViewModel
+    public class ArticeDTO
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -11,17 +11,17 @@
         public DateTime PublishedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public bool Featured { get; set; }
-        public IList<LaunchesViewModel> Launches { get; set; }
-        public IList<EventsViewModel> Events { get; set; }
+        public IList<LaunchesDTO> Launches { get; set; }
+        public IList<EventsDTO> Events { get; set; }
     }
 
-    public class LaunchesViewModel
+    public class LaunchesDTO
     {
         public string Id { get; set; }
         public string Provider { get; set; }
     }
 
-    public class EventsViewModel
+    public class EventsDTO
     {
         public string Id { get; set; }
         public string Provider { get; set; }
