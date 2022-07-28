@@ -1,9 +1,9 @@
-﻿using SpaceFlight.API.Application.Model.ViewModel;
+﻿using SpaceFlight.API.Application.DTO.ViewModel;
 
 namespace SpaceFlight.API.Core.Contracts
 {
     public interface ISpaceFlightService
     {
-        Task<IList<ArticeViewModel>> GetArticlesAsync(CancellationToken token);
+        Task<IList<ArticleDTO>> GetArticlesAsync(CancellationToken token);
     }
 }

@@ -1,5 +1,5 @@
-using SpaceFlight.API.Contracts;
-using SpaceFlight.API.Service;
+using SpaceFlight.API.Application.Service;
+using SpaceFlight.API.Core.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 

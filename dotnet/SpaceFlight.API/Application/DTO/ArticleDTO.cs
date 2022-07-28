@@ -1,6 +1,6 @@
 ﻿namespace SpaceFlight.API.Application.DTO.ViewModel
 {
-    public class ArticeDTO
+    public class ArticleDTO
     {
         public int Id { get; set; }
         public string Title { get; set; }
