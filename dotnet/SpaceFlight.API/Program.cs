@@ -1,13 +1,10 @@
-using SpaceFlight.API.Application.Service;
-using SpaceFlight.API.Core.Contracts;
+using MongoDB.Driver;
+using SpaceFlight.API.Core.Contracts.Infrastructure;
+using SpaceFlight.API.Setup;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddScoped<ISpaceFlightService, SpaceFlightService>();
-
+ApiSetup.Configure(builder);
 
 var app = builder.Build();
 
@@ -21,9 +18,9 @@ app.UseHttpsRedirection();
 
 app.MapGet("/", () => Results.Ok("Back-end Challenge 2021 - Space Flight News"));
 
-app.MapGet("/articles/api", (ISpaceFlightService service, CancellationToken token) =>
+app.MapGet("/articles", async (IDatabase db, CancellationToken token) =>
 {
-    var articles = service.GetArticlesAsync(token);
+    var articles = await db.Collection.Find(_ => true).ToListAsync(token);
 
     return articles;
 });
