@@ -1,4 +1,4 @@
-﻿namespace SpaceFlight.API.Constants
+﻿namespace SpaceFlight.API.Core.Constants
 {
     public static class SpaceFlightApiUrlConstants
     {

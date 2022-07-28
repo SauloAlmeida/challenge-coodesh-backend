@@ -1,8 +1,8 @@
-﻿using SpaceFlight.API.Constants;
-using SpaceFlight.API.Contracts;
-using SpaceFlight.API.Model.ViewModel;
+﻿using SpaceFlight.API.Core.Constants;
+using SpaceFlight.API.Core.Contracts;
+using SpaceFlight.API.Application.Model.ViewModel;
 
-namespace SpaceFlight.API.Service
+namespace SpaceFlight.API.Application.Service
 {
     public class SpaceFlightService : ISpaceFlightService
     {     

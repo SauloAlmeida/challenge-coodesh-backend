@@ -1,4 +1,4 @@
-﻿namespace SpaceFlight.API.Model.ViewModel
+﻿namespace SpaceFlight.API.Application.Model.ViewModel
 {
     public class ArticeViewModel
     {

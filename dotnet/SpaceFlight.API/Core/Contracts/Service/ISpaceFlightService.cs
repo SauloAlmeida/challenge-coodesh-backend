@@ -1,6 +1,6 @@
-﻿using SpaceFlight.API.Model.ViewModel;
+﻿using SpaceFlight.API.Application.Model.ViewModel;
 
-namespace SpaceFlight.API.Contracts
+namespace SpaceFlight.API.Core.Contracts
 {
     public interface ISpaceFlightService
     {
