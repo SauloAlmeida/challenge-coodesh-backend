@@ -1,9 +1,9 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
 
 namespace SpaceFlight.API.Application.Model
 {
-    public class Article
+    public class Article 
     {
         [BsonId]
         [BsonRepresentation(BsonType.Int32)]

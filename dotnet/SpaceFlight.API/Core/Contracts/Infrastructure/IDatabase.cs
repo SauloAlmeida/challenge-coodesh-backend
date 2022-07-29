@@ -6,5 +6,6 @@ namespace SpaceFlight.API.Core.Contracts.Infrastructure
     public interface IDatabase
     {
         IMongoCollection<Article> Collection { get; set; }
+        Task<int> GetNewIdAsync(CancellationToken token = default);
     }
 }

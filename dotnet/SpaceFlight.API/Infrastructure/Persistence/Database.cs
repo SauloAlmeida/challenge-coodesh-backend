@@ -17,5 +17,14 @@ namespace SpaceFlight.API.Infrastructure.Persistence
 
             Collection = mongoDatabase.GetCollection<Article>(settings.CollectionName);
         }
+
+        public async Task<int> GetNewIdAsync(CancellationToken token = default)
+        {
+            var lastArticle = await Collection.Find(_ => true).SortByDescending(f => f.Id).Limit(1).FirstOrDefaultAsync(token);
+
+            if (lastArticle != null) return lastArticle.Id + 1;
+
+            return 1;
+        }
     }
 }
