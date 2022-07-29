@@ -38,4 +38,10 @@ app.MapPost("/articles", async ([FromBody] ArticleDTO dto, IDatabase db, Cancell
     Results.Created($"/articles/{entity.Id}", entity);
 });
 
+app.MapDelete("/articles/{id}", async (long id, IDatabase db, CancellationToken token) =>
+{
+    await db.Collection.DeleteOneAsync(f => f.Id == id, token);
+    Results.NoContent();
+});
+
 app.Run();
