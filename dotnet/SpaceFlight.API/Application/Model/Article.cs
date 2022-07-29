@@ -6,9 +6,8 @@ namespace SpaceFlight.API.Application.Model
     public class Article
     {
         [BsonId]
-        [BsonRepresentation(BsonType.Int64)]
-        [BsonElement("_id")]
-        public long Id { get; set; }
+        [BsonRepresentation(BsonType.Int32)]
+        public int Id { get; set; }
         public string Title { get; set; }
         public string Url { get; set; }
         public string ImageUrl { get; set; }

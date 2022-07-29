@@ -1,4 +1,5 @@
 using MongoDB.Driver;
+using SpaceFlight.API.Application.Model;
 using SpaceFlight.API.Core.Contracts.Infrastructure;
 using SpaceFlight.API.Setup;
 
@@ -18,11 +19,10 @@ app.UseHttpsRedirection();
 
 app.MapGet("/", () => Results.Ok("Back-end Challenge 2021 - Space Flight News"));
 
-app.MapGet("/articles", async (IDatabase db, CancellationToken token) =>
-{
-    var articles = await db.Collection.Find(_ => true).ToListAsync(token);
+app.MapGet("/articles", async (IDatabase db, CancellationToken token)
+    => await db.Collection.Find(_ => true).ToListAsync(token));
 
-    return articles;
-});
+app.MapGet("/articles/{id}", async (long id, IDatabase db, CancellationToken token) 
+    => await db.Collection.Find(f => f.Id == id).SingleOrDefaultAsync(token));
 
 app.Run();
