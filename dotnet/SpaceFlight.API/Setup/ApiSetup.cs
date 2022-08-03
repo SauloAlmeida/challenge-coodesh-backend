@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using SpaceFlight.API.Application.Service;
 using SpaceFlight.API.Core.Contracts;
 using SpaceFlight.API.Core.Contracts.Infrastructure;
 using SpaceFlight.API.Core.Contracts.Settings;
 using SpaceFlight.API.Core.Settings;
+using SpaceFlight.API.Infrastructure.ApiClient;
 using SpaceFlight.API.Infrastructure.Persistence;
 
 namespace SpaceFlight.API.Setup
@@ -18,7 +18,6 @@ namespace SpaceFlight.API.Setup
 
             builder.Services.SetupSettings(builder.Configuration);
             builder.Services.SetupInfrastructure();
-            builder.Services.SetupServices();
         }
 
         static void SetupSettings(this IServiceCollection services, ConfigurationManager configuration)
@@ -32,11 +31,7 @@ namespace SpaceFlight.API.Setup
             services.AddSingleton<IMongoClient>(c => new MongoClient(c.GetService<IDatabaseSettings>().ConnectionString));
             services.AddScoped(c => c.GetService<IMongoClient>().StartSession());
             services.AddScoped<IDatabase, Database>();
-        }
-
-        static void SetupServices(this IServiceCollection services)
-        {
-            services.AddScoped<ISpaceFlightService, SpaceFlightService>();
+            services.AddHttpClient<ISpaceFlightApiClient, SpaceFlightApiClient>();
         }
     }
 }

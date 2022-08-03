@@ -2,6 +2,8 @@
 {
     public static class SpaceFlightApiUrlConstants
     {
-        public static string GetArticles => "https://api.spaceflightnewsapi.net/v3/articles";
+        const string BaseUrl = "https://api.spaceflightnewsapi.net/v3";
+        public static string GetArticles => $"{BaseUrl}/articles";
+        public static string GetTotalArticles => $"{BaseUrl}/articles/count";
     }
 }
