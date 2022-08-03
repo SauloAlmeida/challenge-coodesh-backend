@@ -2,7 +2,7 @@
 {
     public class Events
     {
-        public object Id { get; set; }
-        public object Provider { get; set; }
+        public string Id { get; set; }
+        public string Provider { get; set; }
     }
 }

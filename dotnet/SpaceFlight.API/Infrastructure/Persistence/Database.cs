@@ -20,11 +20,16 @@ namespace SpaceFlight.API.Infrastructure.Persistence
 
         public async Task<int> GetNewIdAsync(CancellationToken token = default)
         {
+            var lastArticleId = await GetLastIdAsync(token);
+
+            return lastArticleId + 1;
+        }
+
+        public async Task<int> GetLastIdAsync(CancellationToken token = default)
+        {
             var lastArticle = await Collection.Find(_ => true).SortByDescending(f => f.Id).Limit(1).FirstOrDefaultAsync(token);
 
-            if (lastArticle != null) return lastArticle.Id + 1;
-
-            return 1;
+            return lastArticle?.Id ?? 0;
         }
     }
 }

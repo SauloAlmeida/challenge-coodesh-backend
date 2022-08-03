@@ -13,7 +13,7 @@ namespace SpaceFlight.API.Api
             app.MapGet("/", () => Results.Ok("Back-end Challenge 2021 - Space Flight News"));
 
             app.MapGet("/articles", async (IDatabase db, CancellationToken token)
-                => await db.Collection.Find(_ => true).ToListAsync(token));
+                => await db.Collection.Find(_ => true).Limit(5).ToListAsync(token));
 
             app.MapGet("/articles/{id}", async (int id, IDatabase db, CancellationToken token)
                 => await db.Collection.Find(f => f.Id == id).SingleOrDefaultAsync(token));

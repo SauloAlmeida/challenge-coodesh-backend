@@ -8,7 +8,7 @@ namespace SpaceFlight.API.Infrastructure.Persistence
 {
     public static class Seed
     {
-        private const int LIMIT_ITEMS_PER_REQUEST = 200;
+        private const int LIMIT_ITEMS_PER_REQUEST = 100;
 
         public static async Task ExecuteAsync(IServiceProvider serviceProvider)
         {
@@ -24,12 +24,28 @@ namespace SpaceFlight.API.Infrastructure.Persistence
 
             int totalRequests = totalArticles / LIMIT_ITEMS_PER_REQUEST;
 
-            IList<ArticleDTO>[] responseTask = await GetArticlesParalellism(spaceService, totalRequests);
+            IList<ArticleDTO>[] responseTask = await GetArticlesParallelism(spaceService, totalRequests);
 
-            await InsertParalellism(db, responseTask);
+            await InsertParallelism(db, responseTask);
         }
 
-        private static async Task InsertParalellism(IDatabase db, IList<ArticleDTO>[] responseTask)
+        private static async Task<IList<ArticleDTO>[]> GetArticlesParallelism(ISpaceFlightApiClient spaceService, int totalRequests)
+        {
+            List<Task<IList<ArticleDTO>>> tasksToRequest = new();
+
+            for (int index = 0; index <= totalRequests; index++)
+            {
+                int skip = index * LIMIT_ITEMS_PER_REQUEST;
+
+                ArticleFilterDTO filter = new(LIMIT_ITEMS_PER_REQUEST, skip);
+
+                tasksToRequest.Add(spaceService.GetArticlesAsync(filter));
+            }
+
+            return await Task.WhenAll(tasksToRequest);
+        }
+
+        private static async Task InsertParallelism(IDatabase db, IList<ArticleDTO>[] responseTask)
         {
             List<Task> tasksToInsert = new();
 
@@ -41,22 +57,6 @@ namespace SpaceFlight.API.Infrastructure.Persistence
             }
 
             await Task.WhenAll(tasksToInsert);
-        }
-
-        private static async Task<IList<ArticleDTO>[]> GetArticlesParalellism(ISpaceFlightApiClient spaceService, int totalRequests)
-        {
-            List<Task<IList<ArticleDTO>>> tasksToRequest = new();
-
-            for (int index = 0; index < totalRequests; index++)
-            {
-                int skip = index * LIMIT_ITEMS_PER_REQUEST;
-
-                ArticleFilterDTO filter = new(LIMIT_ITEMS_PER_REQUEST, skip);
-
-                tasksToRequest.Add(spaceService.GetArticlesAsync(filter));
-            }
-
-            return await Task.WhenAll(tasksToRequest);
         }
     }
 }

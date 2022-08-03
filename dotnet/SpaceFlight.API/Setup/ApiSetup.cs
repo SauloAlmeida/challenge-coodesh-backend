@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using Quartz;
 using SpaceFlight.API.Core.Contracts;
 using SpaceFlight.API.Core.Contracts.Infrastructure;
 using SpaceFlight.API.Core.Contracts.Settings;
 using SpaceFlight.API.Core.Settings;
 using SpaceFlight.API.Infrastructure.ApiClient;
+using SpaceFlight.API.Infrastructure.Job;
 using SpaceFlight.API.Infrastructure.Persistence;
 
 namespace SpaceFlight.API.Setup
@@ -29,9 +31,26 @@ namespace SpaceFlight.API.Setup
         static void SetupInfrastructure(this IServiceCollection services)
         {
             services.AddSingleton<IMongoClient>(c => new MongoClient(c.GetService<IDatabaseSettings>().ConnectionString));
-            services.AddScoped(c => c.GetService<IMongoClient>().StartSession());
             services.AddScoped<IDatabase, Database>();
             services.AddHttpClient<ISpaceFlightApiClient, SpaceFlightApiClient>();
+
+            services.AddQuartz(config =>
+            {
+                JobKey jobKey = new(nameof(GetNewArticlesJob));
+
+                config.UseMicrosoftDependencyInjectionJobFactory();
+                config.AddJob<GetNewArticlesJob>(opt => opt.WithIdentity(jobKey));
+                config.AddTrigger(opt => opt
+                        .ForJob(jobKey)
+                        .WithIdentity($"{nameof(GetNewArticlesJob)}-trigger")
+                        .WithCronSchedule(
+                                CronScheduleBuilder.DailyAtHourAndMinute(9, 0)
+                                                   .InTimeZone(TimeZoneInfo.FindSystemTimeZoneById("E. South America Standard Time"))
+                        )
+                );
+            });
+
+            services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
         }
     }
 }

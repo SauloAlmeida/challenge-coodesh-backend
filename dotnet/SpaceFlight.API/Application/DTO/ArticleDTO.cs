@@ -37,14 +37,14 @@ namespace SpaceFlight.API.Application.DTO.ViewModel
 
     public class LaunchesDTO
     {
-        public object Id { get; set; }
-        public object Provider { get; set; }
+        public Guid Id { get; set; }
+        public string Provider { get; set; }
 
         public Launches ToEntity()
         {
             return new()
             {
-                Id = Id,
+                Id = Id.ToString(),
                 Provider = Provider,
             };
         }
@@ -52,14 +52,14 @@ namespace SpaceFlight.API.Application.DTO.ViewModel
 
     public class EventsDTO
     {
-        public object Id { get; set; }
-        public object Provider { get; set; }
+        public int Id { get; set; }
+        public string Provider { get; set; }
 
         public Events ToEntity()
         {
             return new()
             {
-                Id = Id,
+                Id = Id.ToString(),
                 Provider = Provider,
             };
         }
