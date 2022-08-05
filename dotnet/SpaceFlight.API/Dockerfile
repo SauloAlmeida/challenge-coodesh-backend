@@ -1,20 +1,14 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-focal AS base
 WORKDIR /app
 EXPOSE 80
-EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0-focal AS build
 WORKDIR /src
-COPY ["SpaceFlight.API/SpaceFlight.API.csproj", "SpaceFlight.API/"]
-RUN dotnet restore "SpaceFlight.API/SpaceFlight.API.csproj"
 COPY . .
-WORKDIR "/src/SpaceFlight.API"
-RUN dotnet build "SpaceFlight.API.csproj" -c Release -o /app/build
+RUN dotnet restore
 
 FROM build AS publish
-RUN dotnet publish "SpaceFlight.API.csproj" -c Release -o /app/publish
+RUN dotnet publish  -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
