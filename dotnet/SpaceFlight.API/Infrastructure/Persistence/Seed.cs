@@ -26,7 +26,7 @@ namespace SpaceFlight.API.Infrastructure.Persistence
 
             IList<ArticleDTO>[] responseTask = await GetArticlesParallelism(spaceService, totalRequests);
 
-            await InsertParallelism(db, responseTask);
+            await InsertAllToDb(db, responseTask);
         }
 
         private static async Task<IList<ArticleDTO>[]> GetArticlesParallelism(ISpaceFlightApiClient spaceService, int totalRequests)
@@ -45,7 +45,7 @@ namespace SpaceFlight.API.Infrastructure.Persistence
             return await Task.WhenAll(tasksToRequest);
         }
 
-        private static async Task InsertParallelism(IDatabase db, IList<ArticleDTO>[] responseTask)
+        private static async Task InsertAllToDb(IDatabase db, IList<ArticleDTO>[] responseTask)
         {
             List<Task> tasksToInsert = new();
 
@@ -53,10 +53,10 @@ namespace SpaceFlight.API.Infrastructure.Persistence
             {
                 var models = articles.Select(s => s.ToEntity(s.Id));
 
-                tasksToInsert.Add(db.Collection.InsertManyAsync(models));
-            }
+                Thread.Sleep(500);
 
-            await Task.WhenAll(tasksToInsert);
+                await db.Collection.InsertManyAsync(models);
+            }
         }
     }
 }
