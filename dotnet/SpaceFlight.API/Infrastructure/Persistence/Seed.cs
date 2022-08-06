@@ -53,8 +53,6 @@ namespace SpaceFlight.API.Infrastructure.Persistence
             {
                 var models = articles.Select(s => s.ToEntity(s.Id));
 
-                Thread.Sleep(500);
-
                 await db.Collection.InsertManyAsync(models);
             }
         }

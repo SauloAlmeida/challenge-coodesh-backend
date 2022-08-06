@@ -16,7 +16,7 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
-ArticleRoutes.Handler(app);
+app.MapControllers();
 
 app.Run();
 

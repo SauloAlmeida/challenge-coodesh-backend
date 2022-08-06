@@ -15,6 +15,7 @@ namespace SpaceFlight.API.Setup
     {
         public static void Configure(WebApplicationBuilder builder)
         {
+            builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
