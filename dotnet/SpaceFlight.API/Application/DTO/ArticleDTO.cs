@@ -29,8 +29,8 @@ namespace SpaceFlight.API.Application.DTO.ViewModel
                 UpdatedAt = UpdatedAt,
                 Featured = Featured,
                 ImageUrl = ImageUrl,
-                Events = Events.Select(s => s.ToEntity()),
-                Launches = Launches.Select(s => s.ToEntity())
+                Events = Events?.Select(s => s.ToEntity()) ?? new List<Events>(),
+                Launches = Launches?.Select(s => s.ToEntity()) ?? new List<Launches>()
             };
         }
     }
