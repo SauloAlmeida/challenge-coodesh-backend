@@ -31,8 +31,14 @@ namespace SpaceFlight.API.Setup
 
         static void SetupInfrastructure(this IServiceCollection services)
         {
-            services.AddSingleton<IMongoClient>(c => new MongoClient(c.GetService<IDatabaseSettings>().ConnectionString));
-            services.AddScoped<IDatabase, Database>();
+            services.AddSingleton(sp =>
+            {
+                IDatabaseSettings databaseSettings = sp.GetRequiredService<IDatabaseSettings>();
+                MongoClient client = new(databaseSettings.ConnectionString);
+                IMongoDatabase db = client.GetDatabase(databaseSettings.DatabaseName);
+                return db;
+            });
+            services.AddSingleton<IContext, Context>();
             services.AddHttpClient<ISpaceFlightApiClient, SpaceFlightApiClient>();
 
             services.AddQuartz(config =>
