@@ -16,7 +16,7 @@ namespace SpaceFlight.API.Infrastructure.Persistence
 
             var spaceService = scope.ServiceProvider.GetRequiredService<ISpaceFlightApiClient>();
 
-            var db = scope.ServiceProvider.GetRequiredService<IDatabase>();
+            var db = scope.ServiceProvider.GetRequiredService<IContext>();
 
             if (db.Collection.CountDocuments(new BsonDocument()) > 0) return;
 
@@ -45,7 +45,7 @@ namespace SpaceFlight.API.Infrastructure.Persistence
             return await Task.WhenAll(tasksToRequest);
         }
 
-        private static async Task InsertAllToDb(IDatabase db, IList<ArticleDTO>[] responseTask)
+        private static async Task InsertAllToDb(IContext db, IList<ArticleDTO>[] responseTask)
         {
             List<Task> tasksToInsert = new();
 

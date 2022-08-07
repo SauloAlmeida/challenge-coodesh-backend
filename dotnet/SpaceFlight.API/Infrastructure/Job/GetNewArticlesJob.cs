@@ -8,9 +8,9 @@ namespace SpaceFlight.API.Infrastructure.Job
     public class GetNewArticlesJob : IGetNewArticlesJob
     {
         private readonly ISpaceFlightApiClient _apiClient;
-        private readonly IDatabase _db;
+        private readonly IContext _db;
 
-        public GetNewArticlesJob(ISpaceFlightApiClient apiClient, IDatabase db)
+        public GetNewArticlesJob(ISpaceFlightApiClient apiClient, IContext db)
         {
             _apiClient = apiClient;
             _db = db;
