@@ -1,7 +1,6 @@
 ﻿using MongoDB.Driver;
 using SpaceFlight.API.Application.Model;
 using SpaceFlight.API.Core.Contracts.Infrastructure;
-using SpaceFlight.API.Core.Contracts.Settings;
 
 namespace SpaceFlight.API.Infrastructure.Persistence
 {

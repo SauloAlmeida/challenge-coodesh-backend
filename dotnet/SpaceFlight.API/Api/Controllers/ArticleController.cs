@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 using SpaceFlight.API.Application.DTO.ViewModel;
-using SpaceFlight.API.Application.Model;
 using SpaceFlight.API.Core.Contracts.Infrastructure;
 
 namespace SpaceFlight.API.Api.Controllers
@@ -10,11 +8,11 @@ namespace SpaceFlight.API.Api.Controllers
     [Route("articles")]
     public class ArticleController : ControllerBase
     {
-        private readonly IContext _context;
+        private readonly IArticleRepository _repository;
 
-        public ArticleController(IContext context)
+        public ArticleController(IArticleRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         [HttpGet("/")]
@@ -22,30 +20,24 @@ namespace SpaceFlight.API.Api.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetAsync(CancellationToken token)
-            => Ok(await _context.Collection.Find(_ => true).Limit(5).ToListAsync(token));
+            => Ok(await _repository.GetAsync(limit: 5, token));
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(int id, CancellationToken token)
-            => Ok(await _context.Collection.Find(f => f.Id == id).SingleOrDefaultAsync(token));
+            => Ok(await _repository.GetByIdAsync(id, token));
 
         [HttpPost]
         public async Task<IActionResult> InsertAsync([FromBody] ArticleDTO dto, CancellationToken token)
         {
-            int newId = await _context.GetNewIdAsync(token);
+            int id = await _repository.AddAsync(dto, token);
 
-            var entity = dto.ToEntity(newId);
-
-            await _context.Collection.InsertOneAsync(entity, cancellationToken: token);
-
-            return Created($"/articles/{entity.Id}", entity);
+            return Created($"/articles/{id}", null);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(int id, [FromBody] ArticleDTO dto, CancellationToken token)
         {
-            var filter = Builders<Article>.Filter.Eq(p => p.Id, id);
-
-            await _context.Collection.ReplaceOneAsync(filter, dto.ToEntity(id), cancellationToken: token);
+            await _repository.UpdateAsync(id, dto, token);
 
             return NoContent();
         }
@@ -53,7 +45,7 @@ namespace SpaceFlight.API.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id, CancellationToken token)
         {
-            await _context.Collection.DeleteOneAsync(f => f.Id == id, token);
+            await _repository.DeleteAsync(id, token);
 
             return NoContent();
         }

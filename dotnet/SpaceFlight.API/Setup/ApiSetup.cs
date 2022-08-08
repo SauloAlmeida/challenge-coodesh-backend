@@ -40,7 +40,7 @@ namespace SpaceFlight.API.Setup
             });
             services.AddSingleton<IContext, Context>();
             services.AddHttpClient<ISpaceFlightApiClient, SpaceFlightApiClient>();
-
+            services.AddSingleton<IArticleRepository, ArticleRepository>();
             services.AddQuartz(config =>
             {
                 JobKey jobKey = new(nameof(GetNewArticlesJob));
