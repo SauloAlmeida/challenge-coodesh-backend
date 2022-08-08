@@ -1,8 +1,7 @@
-using SpaceFlight.API.Api;
 using SpaceFlight.API.Infrastructure.Persistence;
 using SpaceFlight.API.Setup;
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
 ApiSetup.Configure(builder);
 
