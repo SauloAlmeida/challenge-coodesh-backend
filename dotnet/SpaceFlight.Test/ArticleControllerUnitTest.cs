@@ -1,6 +1,5 @@
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 using Moq;
 using SpaceFlight.API.Api.Controllers;
 using SpaceFlight.API.Application.DTO.ViewModel;
